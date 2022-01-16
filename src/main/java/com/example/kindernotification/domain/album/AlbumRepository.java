@@ -1,4 +1,6 @@
 package com.example.kindernotification.domain.album;
 
-public interface AlbumRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AlbumRepository extends JpaRepository<Album, Long> {
 }

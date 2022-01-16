@@ -1,4 +1,6 @@
 package com.example.kindernotification.domain.kinder;
 
-public interface KinderRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface KinderRepository extends JpaRepository<Kinder, Long> {
 }
