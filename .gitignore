@@ -42,3 +42,4 @@ out/
 
 ### rds 설정 파일 ###
 application-rds.yml
+application-mysql.yml
