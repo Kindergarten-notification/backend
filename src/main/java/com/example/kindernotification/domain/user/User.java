@@ -31,5 +31,6 @@ public class User extends BaseTimeEntity {
     private Role role;
 
     @ManyToOne
+    @JoinColumn(name = "KINDER_ID")
     private Kinder kinder;
 }

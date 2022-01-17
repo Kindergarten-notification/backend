@@ -21,6 +21,6 @@ public class Kinder {
     private String kinderName;
 
     @ManyToOne(optional = false)  // 구 하나에 여러 유치원
-//    @JoinColumn(name = "SIDOSGG_ID")
+    @JoinColumn(name = "SIDOSGG_ID")
     private SidoSgg sidoSgg;
 }
