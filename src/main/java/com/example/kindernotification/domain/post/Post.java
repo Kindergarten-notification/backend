@@ -28,7 +28,7 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "KINDER_ID")
     private Kinder kinder;
 
-    @ManyToOne(optional = false)  // User 한 명당 사진 여러 개 업로드 가능
+    @ManyToOne(optional = false)  // User 한 명당 게시물 여러 개 업로드 가능
     @JoinColumn(name = "USER_ID")
     private User user;
 }

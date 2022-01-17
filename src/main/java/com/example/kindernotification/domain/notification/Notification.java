@@ -24,7 +24,7 @@ public class Notification extends BaseTimeEntity {
 
     private String image;
 
-    @ManyToOne(optional = false)  // 한 유치원 당 사진 여러 개 업로드 가능
+    @ManyToOne(optional = false)  // 한 유치원 당 공지 여러 개 업로드 가능
     @JoinColumn(name = "KINDER_ID")
     private Kinder kinder;
 
