@@ -2,6 +2,7 @@ package com.example.kindernotification.web.controller;
 
 import com.example.kindernotification.service.post.PostService;
 import com.example.kindernotification.web.dto.PostDetailDto;
+import com.example.kindernotification.web.dto.PostInsertDto;
 import com.example.kindernotification.web.dto.PostListDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,4 +49,21 @@ public class PostController {
         // 결과 응답
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
+
+    // 게시글 등록
+    @PostMapping("/post")
+    public ResponseEntity<PostInsertDto> create(@RequestParam("kinder_id") long kinderId,
+                                                @RequestParam("user_id") long userId,
+                                                @RequestBody PostInsertDto postInsertDto){
+        // id, postId 받아오는지 로그 확인
+        log.info("id -> " + userId);
+        log.info("kinder_id -> " + kinderId);
+
+        // 서비스
+        PostInsertDto dtos = postService.create(postInsertDto, kinderId, userId);
+
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
+    }
+
 }

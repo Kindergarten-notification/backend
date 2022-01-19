@@ -3,14 +3,15 @@ package com.example.kindernotification.domain.post;
 import com.example.kindernotification.domain.BaseTimeEntity;
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.example.kindernotification.web.dto.PostInsertDto;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@NoArgsConstructor
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Post extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +32,16 @@ public class Post extends BaseTimeEntity {
     @ManyToOne(optional = false)  // User 한 명당 게시물 여러 개 업로드 가능
     @JoinColumn(name = "USER_ID")
     private User user;
+
+    public static Post create(PostInsertDto postInsertDto, Kinder kinder, User user) {
+        return new Post(
+                postInsertDto.getId(),
+                postInsertDto.getTitle(),
+                postInsertDto.getContents(),
+                postInsertDto.getImage(),
+                kinder,
+                user
+        );
+    }
 }
+
