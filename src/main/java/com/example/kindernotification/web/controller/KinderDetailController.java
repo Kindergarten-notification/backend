@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/detail", method = RequestMethod.GET)
+@RequestMapping(value = "/api/kinder", method = RequestMethod.GET)
 public class KinderDetailController {
 
     private final KinderDetailService kinderDetailService;
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("/api/kinder/{kinder_id}")
     public KinderDetailDto findById(@PathVariable Long id) {
-        return KinderDetailService.findById(id);
+        return kinderDetailService.findById(id);
     }
 
 }
