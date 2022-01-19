@@ -31,4 +31,13 @@ public class Notification extends BaseTimeEntity {
     @ManyToOne(optional = false)  // User(MANAGER) 한 명당 공지 여러 개 업로드 가능
     @JoinColumn(name = "USER_ID")
     private User user;
-}
+
+    public void patch(Notification notification) {
+        if (notification.title != null)
+            this.title = notification.title;
+        if (notification.contents != null)
+            this.contents = notification.contents;
+      }
+    }
+
+
