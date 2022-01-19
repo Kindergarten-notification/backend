@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class KinderDetailService {
-    private static KinderRepository kinderRepository;
+    public static KinderRepository kinderRepository;
 
     public static KinderDetailDto findById(Long id) {
         Kinder entity = kinderRepository.findById(id)
@@ -27,7 +27,7 @@ public class KinderDetailService {
     @Transactional(readOnly = true)
     public List<KinderDetailDto> findAllDesc() {
         return kinderRepository.findAllDesc().stream()
-                .map(kinder ->new KinderDetailDto((Kinder) kinder))
+                .map(KinderDetailDto::new)
                 .collect(Collectors.toList());
     }
 }

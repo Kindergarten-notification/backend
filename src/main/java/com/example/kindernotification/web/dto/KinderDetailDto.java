@@ -49,22 +49,6 @@ public class KinderDetailDto {
         this.opraVhcnt = String.valueOf(entity.getOpraVhcnt());
     }
 
-//    public Kinder toEntity() {
-//        return Kinder.builder()
-//                .id(id)
-//                .kinderName(kinderName)
-//                .estabilsh(establish)
-//                .telNo(telNo)
-//                .operTime(operTime)
-//                .ldgrName(ldgrName)
-//                .sidoSgg(sidoSgg)
-//                .addr(addr)
-//                .hpAddr(hpAddr)
-//                .vhclOprnYn(vhclOprnYn)
-//                .opraVhcnt(opraVhcnt)
-//                .build();
-//    }
-
 //    @Override
 //    public String toString() {
 //        return "KinderDetailDto{" +
