@@ -26,7 +26,7 @@ public class KinderService {
     //desc kinder repository 에 추가
     @Transactional(readOnly = true)
     public List<KinderDetailDto> findAllDesc() {
-        return kinderRepository.findAllOrderByIdDesc().stream()
+        return kinderRepository.findAllByOrderByIdDesc().stream()
                 .map(KinderDetailDto::new)
                 .collect(Collectors.toList());
     }
