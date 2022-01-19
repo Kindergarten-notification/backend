@@ -1,10 +1,13 @@
 package com.example.kindernotification.web.dto;
 
 import com.example.kindernotification.domain.kinder.Kinder;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @Data
 @NoArgsConstructor
 public class KinderDetailDto {
