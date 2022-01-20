@@ -2,8 +2,7 @@ package com.example.kindernotification.web.controller;
 
 
 import com.example.kindernotification.domain.notification.Notification;
-import com.example.kindernotification.domain.notification.NotificationRepository;
-import com.example.kindernotification.web.dto.NotiDto;
+import com.example.kindernotification.service.notification.NotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,61 +14,49 @@ import java.util.List;
 @RestController
 public class NotificationController {
 @Autowired
-    private NotificationRepository notificationRepository;
+    private NotificationService notificationService;
 
 
     // GET
-    @GetMapping("/notification")
+    @GetMapping("/api/notification")
      public List<Notification> index() {
-        return notificationRepository.findAll();
+        return notificationService.index();
     }
 
-    @GetMapping("/notification/{id}")
-    public Notification index(@PathVariable Long id) {
-        return notificationRepository.findById(id).orElse(null);
+    @GetMapping("/api/notification/{id}")
+    public Notification show(@PathVariable Long id) {
+        return notificationService.show(id);
     }
 
     // POST
-    @PostMapping("/notification")
-    public Notification create(NotiDto dto) {
-        Notification notification = dto.toEntity();
-        return notificationRepository.save(notification);
+    @PostMapping("/api/notification")
+    public ResponseEntity<Notification> create(@RequestBody NotiDto dto) {
+        Notification created = notificationService.create(dto);
+        return (created != null) ?
+                ResponseEntity.status(HttpStatus.OK).body(created):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
     }
+
+
+
     // PATCH
     @PatchMapping("/notification/{id}")
     public ResponseEntity<Notification> update(@PathVariable Long id,
-                                               @RequestBody NotiDto dto){
-        // 1: 수정용 엔티티 생성
-        Notification notification = dto.toEntity();
-        log.info("id: {}, notification: {}", id, notification.toString());
-        // 2: 대상 엔티티를 조회
-        Notification target = notificationRepository.findById(id).orElse(null);
-        // 3: 잘못된 요청 처리(대상이 없거나, id가 다른 경우)
-        if (target == null || id != notification.getId()) {
-        //400, 잘못된 요청 응답
-            log.info("잘못된 요청! id: {}, notification: {}", id, notification.toString());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-        // 4: 업데이트 및 정상 응답(200)
-        target.patch(notification);
-        Notification updated = NotificationRepository.save(target);
-        return ResponseEntity.status(HttpStatus.OK).body(updated);
-
+                                               @RequestBody NotiDto dto) {
+        Notification updateed = notificationService.update(id, dto);
+        return (updateed != null) ?
+                ResponseEntity.status(HttpStatus.OK).body(updated) :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
         //DELETE
         @DeleteMapping("/notification/{id}")
             public ResponseEntity<Notification> delete(@PathVariable Long id) {
-            // 대상 찾기
-            Notification target notificationRepository.findById(id).orElse(null);
-            // 잘못된 요청 처리
-            if (target == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-            // 대상 삭제
-            notificationRepository.delete(target);
-            return ResponseEntity.status(HttpStatus.OK).build();
-            // 데이터 반환
+            Notification deleted = notificationService.delete(id);
+            return (deleted != null) ?
+                    ResponseEntity.status(HttpStatus.NO_CONTENT).build() :
+                    ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-            return null;
         }
     }
-}
+
