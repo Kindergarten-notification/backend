@@ -8,6 +8,6 @@ import java.util.List;
 public interface KinderRepository extends JpaRepository<Kinder, Long> {
 
     //메인페이지에 필요한 정보 가져오기
-    @Query(value = "SELECT kinderCode, kinderName,telNo, addr FROM kinder ", nativeQuery = true)
-    List<Kinder> findAll();
+//    @Query(value = "SELECT id, kinderCode, kinderName,telNo, addr FROM kinder order by id ", nativeQuery = true)
+//    List<Kinder> findKinders();
 }

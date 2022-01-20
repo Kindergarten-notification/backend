@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class MainpageDto {
+public class MainpageResponseDto {
 
     //ID
     private Long id;
@@ -20,13 +20,12 @@ public class MainpageDto {
     //주소
     private String addr;
 
-    @Builder
-    public MainpageDto(Kinder entity) {
-        this.id = entity.getId();
-        this.kinderCode = entity.getKinderCode();
-        this.kinderName = entity.getKinderName();
-        this.telNo = entity.getTelNo();
-        this.addr = entity.getAddr();
-    }
+   public MainpageResponseDto(Kinder entity) {
+       this.id = entity.getId();
+       this.kinderCode = entity.getKinderCode();
+       this.kinderName = entity.getKinderName();
+       this.telNo = entity.getTelNo();
+       this.addr = entity.getAddr();
+   }
 }
 
