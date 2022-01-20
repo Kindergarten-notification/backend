@@ -8,6 +8,11 @@ import java.util.List;
 
 public interface KinderRepository extends JpaRepository<Kinder, Long> {
 
+
 //    @Override
     Page<Kinder> findAllByOrderByKinderName(Pageable pageable);
+  
+    List<Kinder> findAllByOrderByIdDesc();
+
 }
+
