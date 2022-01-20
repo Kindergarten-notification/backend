@@ -35,7 +35,7 @@ public class PostService {
     private KinderRepository kinderRepository;
 
     // 게시글 리스트 조회
-    public List<PostListDto> selectAll(long kinderId) {
+    public List<PostListDto> selectAll(Long kinderId) {
 
         /*
         //조회 (Entity)
@@ -58,7 +58,7 @@ public class PostService {
     }
 
     // 게시글 상세 조회
-    public List<PostDetailDto> selectDetail(long kinderId, long postId) {
+    public List<PostDetailDto> selectDetail(Long kinderId, Long postId) {
 
         //조회 (Entity)
         List<Post> postDetail = postRepository.findKinderPostDetailSelect(kinderId, postId);
@@ -71,7 +71,7 @@ public class PostService {
         return dtos;
     }
 
-    public PostInsertDto create(PostInsertDto postInsertDto, long kinderId, long userId) {
+    public PostInsertDto create(PostInsertDto postInsertDto, Long kinderId, Long userId) {
         // 유치원 조회
         Kinder kinder = kinderRepository.findKinderInfoDetail(kinderId);
 
@@ -105,5 +105,17 @@ public class PostService {
         Post createdPost = postRepository.save(target);
 
         return PostDetailDto.selectDetail(createdPost);
+    }
+
+    @Transactional
+    public PostDetailDto deletePost(Long postId, Long userId, Long kinderId) {
+        // 게시글 조회
+        Post target = postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시판이 없습니다."));
+
+        // 조회된 게시글 DB에서 삭제
+        postRepository.delete(target);
+
+        // DTO 변환
+        return PostDetailDto.selectDetail(target);
     }
 }

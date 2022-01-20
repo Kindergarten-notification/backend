@@ -79,4 +79,16 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
 
+    // 게시글 삭제
+    @DeleteMapping("/post/{id}")
+    public ResponseEntity<PostDetailDto> deletePost (@PathVariable("id") Long postId,
+                                                     @RequestParam("kinder_id") Long kinderId,
+                                                     @RequestParam("user_id") Long userId){
+        // 서비스
+        PostDetailDto dtos = postService.deletePost(postId, userId, kinderId);
+
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
+    }
+
 }
