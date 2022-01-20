@@ -2,6 +2,7 @@ package com.example.kindernotification.domain.post;
 
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
+import com.example.kindernotification.web.dto.PostDetailDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,5 +17,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     // 특정 유치원 특정 게시글 조회
     @Query(value = "SELECT * FROM post WHERE KINDER_ID = :kinderCode AND :postId ", nativeQuery = true)
-    List<Post> findKinderPostDetailSelect(Long kinderCode, int postId);
+    List<Post> findKinderPostDetailSelect(Long kinderCode, Long postId);
+
+    // 특정 유치원 특정 게시글 조회
+    @Query(value = "SELECT * FROM post WHERE KINDER_ID = :kinderCode AND :postId ", nativeQuery = true)
+    PostDetailDto findKinderPostDetailSelect2(Long kinderCode, Long postId);
 }

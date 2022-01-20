@@ -12,6 +12,7 @@ import com.example.kindernotification.web.dto.PostListDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.ArrayList;
@@ -57,19 +58,18 @@ public class PostService {
     }
 
     // 게시글 상세 조회
-    public List<PostDetailDto> selectDetail(long kinderId, int postId){
+    public List<PostDetailDto> selectDetail(long kinderId, long postId) {
 
         //조회 (Entity)
         List<Post> postDetail = postRepository.findKinderPostDetailSelect(kinderId, postId);
 
         //변환 (Entity -> Dto)
         List<PostDetailDto> dtos = new ArrayList();
-        PostDetailDto dto = PostDetailDto.selectDetail(postDetail.get(postId-1));
+        PostDetailDto dto = PostDetailDto.selectDetail(postDetail.get((int) (postId - 1)));
         dtos.add(dto);
 
         return dtos;
     }
-
 
     public PostInsertDto create(PostInsertDto postInsertDto, long kinderId, long userId) {
         // 유치원 조회
@@ -85,5 +85,25 @@ public class PostService {
         Post createdPost = postRepository.save(post);
 
         return PostInsertDto.create(createdPost);
+    }
+
+    @Transactional
+    public PostDetailDto updatePost(PostDetailDto postDetailDto, Long kinderId, Long postId, Long userId) {
+        // 게시글 상세 조회
+        Post target = postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시판이 없습니다."));
+
+        // 유치원 조회
+        //Kinder kinder = kinderRepository.findKinderInfoDetail(kinderId);
+
+        // 유저 조회
+        //User user = userRepository.findUserInfoDetail(userId);
+
+        // 게시글 수정
+        target.update(postDetailDto);
+
+        // 엔티티 DB 저장
+        Post createdPost = postRepository.save(target);
+
+        return PostDetailDto.selectDetail(createdPost);
     }
 }

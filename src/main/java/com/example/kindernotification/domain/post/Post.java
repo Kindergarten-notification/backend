@@ -3,6 +3,7 @@ package com.example.kindernotification.domain.post;
 import com.example.kindernotification.domain.BaseTimeEntity;
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
+import com.example.kindernotification.web.dto.PostDetailDto;
 import com.example.kindernotification.web.dto.PostInsertDto;
 import lombok.*;
 
@@ -22,7 +23,6 @@ public class Post extends BaseTimeEntity {
 
     @Lob
     private String contents;
-
     private String image;
 
     @ManyToOne(optional = false)  // 한 유치원 당 게시물 여러 개 가능
@@ -42,6 +42,15 @@ public class Post extends BaseTimeEntity {
                 kinder,
                 user
         );
+    }
+
+    public void update(PostDetailDto postDetailDto) {
+        // 객체 갱신
+        if (postDetailDto.getTitle() != null)
+            this.title = postDetailDto.getTitle();
+
+        if (postDetailDto.getContents() != null)
+            this.contents = postDetailDto.getContents();
     }
 }
 
