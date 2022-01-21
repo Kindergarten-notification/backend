@@ -1,6 +1,8 @@
 package com.example.kindernotification.domain.kinder;
 
 import com.example.kindernotification.domain.sidoSgg.SidoSgg;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
+@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
+
 public class Kinder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

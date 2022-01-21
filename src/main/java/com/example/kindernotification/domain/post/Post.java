@@ -5,6 +5,8 @@ import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
 import com.example.kindernotification.web.dto.PostDetailDto;
 import com.example.kindernotification.web.dto.PostInsertDto;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +15,8 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
+
 public class Post extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

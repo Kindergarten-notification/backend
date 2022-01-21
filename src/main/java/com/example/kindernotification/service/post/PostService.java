@@ -92,7 +92,7 @@ public class PostService {
 
         // 게시글의 유치원과 작성자의 유치원 소속 여부 확인
         if (target.getKinder().getId() != user.getKinder().getId())
-            throw new IllegalArgumentException("작성자의 소속이 해당유치원이 아닙니다.");
+            throw new IllegalArgumentException("게시글의 유치원 소속이 작성자의 소속 유치원이 아닙니다.");
 
         // USER, MANAGER, ADMIN,
         // 조회한 유저의 권한

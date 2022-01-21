@@ -3,6 +3,8 @@ package com.example.kindernotification.domain.sidoSgg;
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
+@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class) // 무한루프 방지 코드
 
 public class SidoSgg {
