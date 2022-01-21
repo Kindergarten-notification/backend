@@ -23,10 +23,6 @@ public class PostController {
     // 게시글 목록 전체 조회
     @GetMapping("/posts")
     public ResponseEntity<List<PostListDto>> selectAllPost (@RequestParam("kinder_id") long kinderId){
-
-        // kinder_id 받아오는지 로그 확인
-        log.info("kinder_id -> " + kinderId);
-
         // 서비스
         List<PostListDto> dtos = postService.selectAllPost(kinderId);
 
@@ -38,11 +34,6 @@ public class PostController {
     @GetMapping("/post/{id}")
     public ResponseEntity<PostDetailDto> selectDetail (@PathVariable("id") long postId,
                                                        @RequestParam("kinder_id") long kinderId){
-
-        // id, postId 받아오는지 로그 확인
-        log.info("id -> " + postId);
-        log.info("kinder_id -> " + kinderId);
-
         // 서비스
         PostDetailDto dtos = postService.selectDetail(kinderId, postId);
 
@@ -55,10 +46,6 @@ public class PostController {
     public ResponseEntity<PostInsertDto> createPost (@RequestParam("kinder_id") long kinderId,
                                                      @RequestParam("user_id") long userId,
                                                      @RequestBody PostInsertDto postInsertDto){
-        // id, postId 받아오는지 로그 확인
-        log.info("id -> " + userId);
-        log.info("kinder_id -> " + kinderId);
-
         // 서비스
         PostInsertDto dtos = postService.createPost(postInsertDto, kinderId, userId);
 
