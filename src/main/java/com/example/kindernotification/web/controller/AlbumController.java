@@ -48,4 +48,16 @@ public class AlbumController {
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
+    // 앨범 수정
+    @PatchMapping("/album/{id}")
+    public ResponseEntity<AlbumDetailDto> updatePost (@PathVariable("id") Long postId,
+                                                     @RequestParam("user_id") Long userId,
+                                                     @RequestBody AlbumDto albumDto){
+        // 서비스
+        AlbumDetailDto dto = albumService.updateAlbum(postId, userId, albumDto);
+
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
+
 }

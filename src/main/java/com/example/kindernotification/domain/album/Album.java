@@ -56,4 +56,16 @@ public class Album extends BaseTimeEntity {
                 user
         );
     }
+
+    public void update(AlbumDto albumDto) {
+        // 객체 갱신
+        if (albumDto.getTitle() != null)
+            this.title = albumDto.getTitle();
+
+        if (albumDto.getContents() != null)
+            this.contents = albumDto.getContents();
+
+        if (albumDto.getImage() != null)
+            this.image = albumDto.getImage();
+    }
 }
