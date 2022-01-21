@@ -3,10 +3,7 @@ package com.example.kindernotification.domain.post;
 import com.example.kindernotification.domain.BaseTimeEntity;
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
-import com.example.kindernotification.web.dto.PostDetailDto;
-import com.example.kindernotification.web.dto.PostInsertDto;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.example.kindernotification.web.dto.PostDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +12,6 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
 
 public class Post extends BaseTimeEntity {
     @Id
@@ -37,18 +33,18 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    public static Post create(PostInsertDto postInsertDto, Kinder kinder, User user) {
+    public static Post create(Kinder kinder, User user, PostDto postDto) {
         return new Post(
-                postInsertDto.getId(),
-                postInsertDto.getTitle(),
-                postInsertDto.getContents(),
-                postInsertDto.getImage(),
+                postDto.getId(),
+                postDto.getTitle(),
+                postDto.getContents(),
+                postDto.getImage(),
                 kinder,
                 user
         );
     }
 
-    public void update(PostDetailDto postDetailDto) {
+    public void update(PostDto postDetailDto) {
         // 객체 갱신
         if (postDetailDto.getTitle() != null)
             this.title = postDetailDto.getTitle();

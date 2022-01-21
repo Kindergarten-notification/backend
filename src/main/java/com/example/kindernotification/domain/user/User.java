@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
 
 public class User extends BaseTimeEntity {
     @Id

@@ -18,25 +18,26 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
-
 public class PostListDto {
     private Long id;
     private String title;
     private String contents;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
-    private Kinder kinder;
-    private User user;
+    private String kinderName;
+    private String kinderCode;
+    private String userName;
 
-    public static PostListDto selectAll(Post p) {
+    public static PostListDto create(Post post) {
         return new PostListDto(
-                p.getId(),
-                p.getTitle(),
-                p.getContents(),
-                p.getCreatedDate(),
-                p.getModifiedDate(),
-                p.getKinder(),
-                p.getUser()
+                post.getId(),
+                post.getTitle(),
+                post.getContents(),
+                post.getCreatedDate(),
+                post.getModifiedDate(),
+                post.getKinder().getKinderName(),
+                post.getKinder().getKinderCode(),
+                post.getUser().getName()
         );
     }
 

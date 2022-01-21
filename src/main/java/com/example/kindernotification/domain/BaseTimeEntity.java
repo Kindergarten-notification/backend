@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass  // 해당 class field 를 상속받은 class field 에 넣어주겠다는 의미
 @EntityListeners(AuditingEntityListener.class)
-@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
 
 public abstract class BaseTimeEntity {
     @CreatedDate

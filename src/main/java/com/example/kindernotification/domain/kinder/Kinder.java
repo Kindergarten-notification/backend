@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
 
 public class Kinder {
     @Id

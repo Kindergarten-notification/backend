@@ -26,19 +26,15 @@ public class PostDetailDto {
     private String image;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
-    private Kinder kinder;
-    private User user;
 
-    public static PostDetailDto selectDetail(Post p) {
+    public static PostDetailDto create(Post post) {
         return new PostDetailDto(
-                p.getId(),
-                p.getTitle(),
-                p.getContents(),
-                p.getImage(),
-                p.getCreatedDate(),
-                p.getModifiedDate(),
-                p.getKinder(),
-                p.getUser()
+                post.getId(),
+                post.getTitle(),
+                post.getContents(),
+                post.getImage(),
+                post.getCreatedDate(),
+                post.getModifiedDate()
         );
     }
 }

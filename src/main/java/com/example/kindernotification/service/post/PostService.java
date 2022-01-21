@@ -7,18 +7,15 @@ import com.example.kindernotification.domain.post.PostRepository;
 import com.example.kindernotification.domain.user.User;
 import com.example.kindernotification.domain.user.UserRepository;
 import com.example.kindernotification.web.dto.PostDetailDto;
-import com.example.kindernotification.web.dto.PostInsertDto;
+import com.example.kindernotification.web.dto.PostDto;
 import com.example.kindernotification.web.dto.PostListDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.stream.Collectors;
 
 
 @Service
@@ -37,31 +34,31 @@ public class PostService {
     // 게시글 리스트 조회
     public List<PostListDto> selectAllPost(Long kinderId) {
 
-        /*//조회 (Entity)
-        List<Post> postDetail = postRepository.findKinderPostDetailSelect(kinderId, postId);
+        //조회 (Entity)
+        List<Post> posts = postRepository.findKinderPostSelect(kinderId);
 
         //변환 (Entity -> Dto)
-        List<PostDetailDto> dtos = new ArrayList();
-        PostDetailDto dto = PostDetailDto.selectDetail(postDetail.get((int) (postId - 1)));
-        dtos.add(dto);*/
+        List<PostListDto> dtos = new ArrayList();
 
-        return postRepository.findKinderPostSelect(kinderId)
-                .stream()
-                .map(post -> PostListDto.selectAll(post))
-                .collect(Collectors.toList());
+        for (int i = 0; i < posts.size(); i++) {
+            Post post = posts.get(i);
+            PostListDto dto = PostListDto.create(post);
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     // 게시글 상세 조회
-    public PostDetailDto selectDetail(Long kinderId, Long postId) {
+    public PostDetailDto selectDetail(Long postId) {
         // 게시글 상세 조회
         Post target = postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시판이 없습니다."));
 
-        return PostDetailDto.selectDetail(target);
+        return PostDetailDto.create(target);
     }
 
     // 게시글 등록
     @Transactional
-    public PostInsertDto createPost(PostInsertDto postInsertDto, Long kinderId, Long userId) {
+    public PostDetailDto createPost(Long kinderId, Long userId, PostDto postDto) {
         // 유치원 조회
         Kinder kinder = kinderRepository.findById(kinderId).orElseThrow(()->new IllegalArgumentException("유치원이 없습니다."));
 
@@ -73,21 +70,21 @@ public class PostService {
             throw new IllegalArgumentException("작성자의 소속이 해당유치원이 아닙니다.");
 
         // 게시글 2000자 글자 등록 취소
-        if(postInsertDto.getContents().toString().length() > 2000)
+        if(postDto.getContents().toString().length() > 2000)
             throw new IllegalArgumentException("게시글의 글자가 한도를 초과 하였습니다.");
 
         // 댓글 엔티티 생성
-        Post post = Post.create(postInsertDto, kinder, user);
+        Post post = Post.create(kinder, user, postDto);
 
         // 엔티티 DB 저장
         Post createdPost = postRepository.save(post);
 
-        return PostInsertDto.create(createdPost);
+        return PostDetailDto.create(post);
     }
 
     // 게시글 수정
     @Transactional
-    public PostDetailDto updatePost(PostDetailDto postDetailDto, Long postId, Long userId) {
+    public PostDetailDto updatePost(Long postId, Long userId, PostDto postDto) {
         // 게시글 상세 조회
         Post target = postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시판이 없습니다."));
 
@@ -130,12 +127,12 @@ public class PostService {
             throw new IllegalArgumentException("수정권한이 없습니다.");
 
         // 게시글 수정
-        target.update(postDetailDto);
+        target.update(postDto);
 
         // 엔티티 DB 저장
-        Post createdPost = postRepository.save(target);
+        Post updatedPost = postRepository.save(target);
 
-        return PostDetailDto.selectDetail(createdPost);
+        return PostDetailDto.create(updatedPost);
     }
 
     // 게시글 삭제
@@ -148,6 +145,6 @@ public class PostService {
         postRepository.delete(target);
 
         // DTO 변환
-        return PostDetailDto.selectDetail(target);
+        return PostDetailDto.create(target);
     }
 }
