@@ -15,20 +15,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @ToString
-public class NotificationListDto {
+public class NotificationDetailDto {
     private Long id;
     private String title;
     private String contents;
+    private String image;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private Kinder kinder;
     private User user;
 
-    public static NotificationListDto selectAll(Notification n) {
-        return new NotificationListDto(
+    public static NotificationDetailDto selectDetail(Notification n) {
+        return new NotificationDetailDto(
                 n.getId(),
                 n.getTitle(),
                 n.getContents(),
+                n.getImage(),
                 n.getCreatedDate(),
                 n.getModifiedDate(),
                 n.getKinder(),
