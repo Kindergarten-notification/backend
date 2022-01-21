@@ -106,6 +106,9 @@ public class PostService {
         // 권한 설정
         switch (userRole){
             case "USER":
+                // 유저의 권한을 가진자는 자기가 작성한 게시글만 수정가능
+                if(target.getUser().getId() != user.getId())
+                   throw new IllegalArgumentException("자신이 작성한 게시글만 수정 가능합니다.");
                 sucess = 1;
                 break;
             case "MANAGER":
