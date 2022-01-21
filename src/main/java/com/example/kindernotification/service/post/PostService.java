@@ -73,10 +73,12 @@ public class PostService {
 
     public PostInsertDto create(PostInsertDto postInsertDto, Long kinderId, Long userId) {
         // 유치원 조회
-        Kinder kinder = kinderRepository.findKinderInfoDetail(kinderId);
+        // Kinder kinder = kinderRepository.findKinderInfoDetail(kinderId);
+        Kinder kinder = kinderRepository.findById(kinderId).orElseThrow(()->new IllegalArgumentException("유치원이 없습니다."));
 
         // 유저 조회
-        User user = userRepository.findUserInfoDetail(userId);
+        // User user = userRepository.findUserInfoDetail(userId);
+        User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("유저가 없습니다."));
 
         // 댓글 엔티티 생성
         Post post = Post.create(postInsertDto, kinder, user);
