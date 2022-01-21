@@ -1,8 +1,6 @@
 package com.example.kindernotification.domain.kinder;
 
 import com.example.kindernotification.domain.sidoSgg.SidoSgg;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

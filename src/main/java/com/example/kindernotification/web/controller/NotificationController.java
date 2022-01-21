@@ -1,5 +1,5 @@
 package com.example.kindernotification.web.controller;
-import com.example.kindernotification.domain.notification.NotificationRepository;
+
 import com.example.kindernotification.service.notification.NotificationService;
 import com.example.kindernotification.web.dto.NotificationDetailDto;
 import com.example.kindernotification.web.dto.NotificationDto;
@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @Slf4j
 @RequestMapping("/api")
+@RestController
 public class NotificationController {
-    @Autowired
-    private NotificationRepository notificationRepository;
+
     @Autowired
     private NotificationService notificationService;
-
 
     // 공지사항 목록 전체 조회
     @GetMapping("/notifications")
@@ -35,6 +34,7 @@ public class NotificationController {
     public ResponseEntity<NotificationDetailDto> getDetailNotification(@PathVariable("id") Long postId){
         // 서비스
         NotificationDetailDto dto = notificationService.selectDetail(postId);
+
         // 결과 응답
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }

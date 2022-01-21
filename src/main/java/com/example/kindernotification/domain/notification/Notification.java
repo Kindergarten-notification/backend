@@ -2,7 +2,6 @@ package com.example.kindernotification.domain.notification;
 import com.example.kindernotification.domain.BaseTimeEntity;
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
-import com.example.kindernotification.web.dto.NotificationDetailDto;
 import com.example.kindernotification.web.dto.NotificationDto;
 
 import lombok.*;
@@ -35,17 +34,16 @@ public class Notification extends BaseTimeEntity {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    public static Notification create(Kinder kinder, User user, NotificationDto postDto) {
+    public static Notification create(Kinder kinder, User user, NotificationDto notificationDto) {
         return new Notification(
-                postDto.getId(),
-                postDto.getTitle(),
-                postDto.getContents(),
-                postDto.getImage(),
+                notificationDto.getId(),
+                notificationDto.getTitle(),
+                notificationDto.getContents(),
+                notificationDto.getImage(),
                 kinder,
                 user
         );
     }
-
 
     public void update(NotificationDto notificationDetailDto) {
         // 객체 갱신
