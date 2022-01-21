@@ -80,6 +80,7 @@ public class AlbumService {
     }
 
     // 앨범 수정
+    @Transactional
     public AlbumDetailDto updateAlbum(Long postId, Long userId, AlbumDto albumDto) {
         // 앨범 상세 조회
         Album target = albumRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("앨범이 없습니다."));
@@ -129,5 +130,55 @@ public class AlbumService {
         Album updatedAlbum = albumRepository.save(target);
 
         return AlbumDetailDto.create(updatedAlbum);
+    }
+
+    @Transactional
+    public AlbumDetailDto deleteAlbum(Long postId, Long userId) {
+        // 게시글 조회
+        Album target = albumRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("앨범이 없습니다."));
+
+        // 유저 조회
+        User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저가 없습니다."));
+
+        // 게시글의 유치원과 작성자의 유치원 소속 여부 확인
+        if (target.getKinder().getId() != user.getKinder().getId())
+            throw new IllegalArgumentException("게시글의 유치원 소속이 작성자의 소속 유치원이 아닙니다.");
+
+        // USER, MANAGER, ADMIN,
+        // 조회한 유저의 권한
+        String userRole = user.getRole().toString();
+
+        // 권한 여부
+        // 0 - 권한을 부여하지 않음
+        // 1 - 권한을 부여함
+        int sucess = 0;
+
+        // 권한 설정
+        switch (userRole){
+            case "USER":
+                // 유저의 권한을 가진자는 자기가 작성한 게시글만 수정가능
+                if(target.getUser().getId() != user.getId())
+                    throw new IllegalArgumentException("자신이 작성한 앨범만 삭제 가능합니다.");
+                sucess = 1;
+                break;
+            case "MANAGER":
+                sucess = 1;
+                break;
+            case "ADMIN":
+                sucess = 1;
+                break;
+            default:
+                sucess = 0;
+        }
+
+        // 권한을 부여받지 못하면
+        if(sucess != 1)
+            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+
+        // 조회된 게시글 DB에서 삭제
+        albumRepository.delete(target);
+
+        // DTO 변환
+        return AlbumDetailDto.create(target);
     }
 }
