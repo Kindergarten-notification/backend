@@ -7,12 +7,12 @@ server:
       enabled: true
       force: true
 
-  spring:
-    datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/kinder_notification?serverTimezone=Asia/Seoul
-      username: root
-      password: aotlf4%vmfh
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/kinder_notification?serverTimezone=Asia/Seoul
+    username: root
+    password: aotlf4%vmfh
 #  mvc:
 #    view:
 #      prefix: /templates/
@@ -31,5 +31,5 @@ server:
         format_sql: true # formatting sql log
 
 
-  profiles:
-    include: mysql
+#  profiles:
+#    include: mysql

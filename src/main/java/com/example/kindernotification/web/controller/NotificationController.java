@@ -1,9 +1,10 @@
 package com.example.kindernotification.web.controller;
-import com.example.kindernotification.domain.notification.Notification;
 import com.example.kindernotification.domain.notification.NotificationRepository;
+import com.example.kindernotification.service.notification.NotificationService;
 import com.example.kindernotification.web.dto.NotificationDetailDto;
-import com.example.kindernotification.web.dto.NotificationInsertDto;
-import lombok.extern.slf4j.Slf4j;
+import com.example.kindernotification.web.dto.NotificationDto;
+import com.example.kindernotification.web.dto.NotificationListDto;
+import lombok.extern.slf4j. Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,69 +13,65 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @Slf4j
 @RequestMapping("/api")
-@RestController
 public class NotificationController {
     @Autowired
     private NotificationRepository notificationRepository;
+    @Autowired
+    private NotificationService notificationService;
 
 
-    // GET 전체
-    @GetMapping("/notification")
-    public List<Notification> index(@RequestParam("kinder_id") long kinderId) {
+    // 공지사항 목록 전체 조회
+    @GetMapping("/notifications")
+    public ResponseEntity<List<NotificationListDto>> getAllNotification(@RequestParam("kinder_id") Long kinderId){
+        // 서비스
+        List<NotificationListDto> dtos = notificationService.selectAllNotification(kinderId);
 
-        return notificationRepository.findAll();
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
 
-    
-    // GET 특정
+    // 공지사항 상세조회
     @GetMapping("/notification/{id}")
-    public Notification show (@PathVariable Long id,
-                              @RequestParam("kinder_id") long kinderId) {
-
-        return notificationRepository.findById(id).orElse(null);
+    public ResponseEntity<NotificationDetailDto> getDetailNotification(@PathVariable("id") Long postId){
+        // 서비스
+        NotificationDetailDto dto = notificationService.selectDetail(postId);
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
-    // POST
+    // 공지사항 등록
     @PostMapping("/notification")
-    public Notification create(NotificationInsertDto dto) {
-        Notification notification = dto.toEntity();
-        return notificationRepository.save(notification);
+    public ResponseEntity<NotificationDetailDto> createNotification(@RequestParam("kinder_id") Long kinderId,
+                                                                    @RequestParam("user_id") Long userId,
+                                                                    @RequestBody NotificationDto notificationDto){
+        // 서비스
+        NotificationDetailDto dto = notificationService.createNotification(kinderId, userId, notificationDto);
+
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
-    // PATCH
+
+    // 공지사항 수정
     @PatchMapping("/notification/{id}")
-    public ResponseEntity<Notification> update(@PathVariable Long id,
-                                               @RequestBody NotificationDetailDto dto){
-        // 1: 수정용 엔티티 생성
-        Notification notification = dto.toEntity();
-        log.info("id: {}, notification: {}", id, notification.toString());
-        // 2: 대상 엔티티를 조회
-        Notification target = notificationRepository.findById(id).orElse(null);
-        // 3: 잘못된 요청 처리(대상이 없거나, id가 다른 경우)
-        if (target == null || id != notification.getId()) {
-            //400, 잘못된 요청 응답
-            log.info("잘못된 요청! id: {}, notification: {}", id, notification.toString());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-        // 4: 업데이트 및 정상 응답(200)
-        target.patch(notification);
-        Notification updated = NotificationRepository.save(target);
-        return ResponseEntity.status(HttpStatus.OK).body(updated);
+    public ResponseEntity<NotificationDetailDto> updateNotification(@PathVariable("id") Long postId,
+                                                                    @RequestParam("user_id") Long userId,
+                                                                    @RequestBody NotificationDto notificationDto){
+        // 서비스
+        NotificationDetailDto dtos = notificationService.updateNotification(postId, userId, notificationDto);
 
-        //DELETE
-        @DeleteMapping("/notification/{id}")
-        public ResponseEntity<Notification> delete(@PathVariable Long id) {
-            // 대상 찾기
-            Notification target notificationRepository.findById(id).orElse(null);
-            // 잘못된 요청 처리
-            if (target == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-            // 대상 삭제
-            notificationRepository.delete(target);
-            return ResponseEntity.status(HttpStatus.OK).build();
-            // 데이터 반환
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
+    }
 
-            return null;
-        }
+    //공지사항 삭제
+    @DeleteMapping("/notification/{id}")
+    public ResponseEntity<NotificationDetailDto> deleteNotification(@PathVariable("id") Long postId,
+                                                                    @RequestParam("user_id") Long userId){
+        // 서비스
+        NotificationDetailDto dtos = notificationService.deleteNotification(postId, userId);
+
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
 }
+

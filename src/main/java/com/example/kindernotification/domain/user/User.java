@@ -2,6 +2,8 @@ package com.example.kindernotification.domain.user;
 
 import com.example.kindernotification.domain.BaseTimeEntity;
 import com.example.kindernotification.domain.kinder.Kinder;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

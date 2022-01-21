@@ -1,9 +1,7 @@
 package com.example.kindernotification.web.dto;
-
-import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.notification.Notification;
-import com.example.kindernotification.domain.user.User;
-
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,24 +13,27 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @ToString
+@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class NotificationListDto {
     private Long id;
     private String title;
     private String contents;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
-    private Kinder kinder;
-    private User user;
+    private String kinderName;
+    private String userName;
+    private String userNickname;
 
-    public static NotificationListDto selectAll(Notification n) {
+    public static NotificationListDto create(Notification notification) {
         return new NotificationListDto(
-                n.getId(),
-                n.getTitle(),
-                n.getContents(),
-                n.getCreatedDate(),
-                n.getModifiedDate(),
-                n.getKinder(),
-                n.getUser()
+                notification.getId(),
+                notification.getTitle(),
+                notification.getContents(),
+                notification.getCreatedDate(),
+                notification.getModifiedDate(),
+                notification.getKinder().getKinderName(),
+                notification.getUser().getName(),
+                notification.getUser().getNickname()
         );
     }
 }

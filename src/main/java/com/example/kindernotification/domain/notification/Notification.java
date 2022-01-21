@@ -1,16 +1,19 @@
 package com.example.kindernotification.domain.notification;
-
 import com.example.kindernotification.domain.BaseTimeEntity;
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.example.kindernotification.web.dto.NotificationDetailDto;
+import com.example.kindernotification.web.dto.NotificationDto;
+
+import lombok.*;
 
 import javax.persistence.*;
 
+@AllArgsConstructor
 @Getter
 @NoArgsConstructor
 @Entity
+
 public class Notification extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,12 +35,29 @@ public class Notification extends BaseTimeEntity {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    public void patch(Notification notification) {
-        if (notification.title != null)
-            this.title = notification.title;
-        if (notification.contents != null)
-            this.contents = notification.contents;
-      }
+    public static Notification create(Kinder kinder, User user, NotificationDto postDto) {
+        return new Notification(
+                postDto.getId(),
+                postDto.getTitle(),
+                postDto.getContents(),
+                postDto.getImage(),
+                kinder,
+                user
+        );
     }
+
+
+    public void update(NotificationDto notificationDetailDto) {
+        // 객체 갱신
+        if (notificationDetailDto.getTitle() != null)
+            this.title = notificationDetailDto.getTitle();
+
+        if (notificationDetailDto.getContents() != null)
+            this.contents = notificationDetailDto.getContents();
+
+        if (notificationDetailDto.getImage() != null)
+            this.image = notificationDetailDto.getImage();
+    }
+}
 
 
