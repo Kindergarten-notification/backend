@@ -20,7 +20,7 @@ public class UserService {
     public void join(JoinReqDto joinReqDto) {
         User user = User.builder()
                 .joinReqDto(joinReqDto)
-                .kinder(kinderService.findById(joinReqDto.getKinderId()))
+                .kinder(kinderService.getKinder(joinReqDto.getKinderId()))
                 .build();
         userRepository.save(user);
     }
