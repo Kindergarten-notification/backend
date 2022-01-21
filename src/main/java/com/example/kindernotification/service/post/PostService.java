@@ -35,21 +35,15 @@ public class PostService {
     private KinderRepository kinderRepository;
 
     // 게시글 리스트 조회
-    public List<PostListDto> selectAll(Long kinderId) {
+    public List<PostListDto> selectAllPost(Long kinderId) {
 
-        /*
-        //조회 (Entity)
-        List<Post> posts = postRepository.findKinderPostSelect(kinderId);
+        /*//조회 (Entity)
+        List<Post> postDetail = postRepository.findKinderPostDetailSelect(kinderId, postId);
 
         //변환 (Entity -> Dto)
-        List<PostListDto> dtos = new ArrayList();
-
-        for (int i = 0; i < posts.size(); i++) {
-            Post p = posts.get(i);
-            PostListDto dto = PostListDto.selectAll(p);
-            dtos.add(dto);
-        }
-        */
+        List<PostDetailDto> dtos = new ArrayList();
+        PostDetailDto dto = PostDetailDto.selectDetail(postDetail.get((int) (postId - 1)));
+        dtos.add(dto);*/
 
         return postRepository.findKinderPostSelect(kinderId)
                 .stream()
@@ -58,26 +52,20 @@ public class PostService {
     }
 
     // 게시글 상세 조회
-    public List<PostDetailDto> selectDetail(Long kinderId, Long postId) {
+    public PostDetailDto selectDetail(Long kinderId, Long postId) {
+        // 게시글 상세 조회
+        Post target = postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시판이 없습니다."));
 
-        //조회 (Entity)
-        List<Post> postDetail = postRepository.findKinderPostDetailSelect(kinderId, postId);
-
-        //변환 (Entity -> Dto)
-        List<PostDetailDto> dtos = new ArrayList();
-        PostDetailDto dto = PostDetailDto.selectDetail(postDetail.get((int) (postId - 1)));
-        dtos.add(dto);
-
-        return dtos;
+        return PostDetailDto.selectDetail(target);
     }
 
-    public PostInsertDto create(PostInsertDto postInsertDto, Long kinderId, Long userId) {
+    // 게시글 등록
+    @Transactional
+    public PostInsertDto createPost(PostInsertDto postInsertDto, Long kinderId, Long userId) {
         // 유치원 조회
-        // Kinder kinder = kinderRepository.findKinderInfoDetail(kinderId);
         Kinder kinder = kinderRepository.findById(kinderId).orElseThrow(()->new IllegalArgumentException("유치원이 없습니다."));
 
         // 유저 조회
-        // User user = userRepository.findUserInfoDetail(userId);
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("유저가 없습니다."));
 
         // 댓글 엔티티 생성
@@ -89,6 +77,7 @@ public class PostService {
         return PostInsertDto.create(createdPost);
     }
 
+    // 게시글 수정
     @Transactional
     public PostDetailDto updatePost(PostDetailDto postDetailDto, Long kinderId, Long postId, Long userId) {
         // 게시글 상세 조회
@@ -109,6 +98,7 @@ public class PostService {
         return PostDetailDto.selectDetail(createdPost);
     }
 
+    // 게시글 삭제
     @Transactional
     public PostDetailDto deletePost(Long postId, Long userId, Long kinderId) {
         // 게시글 조회
