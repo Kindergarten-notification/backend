@@ -34,10 +34,6 @@ public class Post extends BaseTimeEntity {
     private User user;
 
     public static Post create(PostInsertDto postInsertDto, Kinder kinder, User user) {
-
-        if (kinder.getId() != user.getKinder().getId())
-            throw new IllegalArgumentException("작성자의 소속이 해당유치원이 아닙니다.");
-
         return new Post(
                 postInsertDto.getId(),
                 postInsertDto.getTitle(),

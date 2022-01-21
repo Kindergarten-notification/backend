@@ -68,6 +68,10 @@ public class PostService {
         // 유저 조회
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("유저가 없습니다."));
 
+        // 작성자의 유치원 소속 여부 확인
+        if (kinder.getId() != user.getKinder().getId())
+            throw new IllegalArgumentException("작성자의 소속이 해당유치원이 아닙니다.");
+
         // 댓글 엔티티 생성
         Post post = Post.create(postInsertDto, kinder, user);
 
@@ -85,6 +89,10 @@ public class PostService {
 
         // 유저 조회
         User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저가 없습니다."));
+
+        // 게시글의 유치원과 작성자의 유치원 소속 여부 확인
+        if (target.getKinder().getId() != user.getKinder().getId())
+            throw new IllegalArgumentException("작성자의 소속이 해당유치원이 아닙니다.");
 
         // USER, MANAGER, ADMIN,
         // 조회한 유저의 권한
