@@ -1,6 +1,7 @@
 package com.example.kindernotification.domain.kinder;
 
 import com.example.kindernotification.domain.sidoSgg.SidoSgg;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,4 +43,13 @@ public class Kinder {
     private String vhclOprnYn;  // 차량 운영 여부
 
     private int opraVhcnt;  // 운행 차량 수
+
+    @Builder
+    public Kinder(Long id, String kinderCode, String kinderName, String telNo, String addr) {
+        this.id = id;
+        this.kinderCode = kinderCode;
+        this.kinderName = kinderName;
+        this.telNo = telNo;
+        this.addr = addr;
+    }
 }
