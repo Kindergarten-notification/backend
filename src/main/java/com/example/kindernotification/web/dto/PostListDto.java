@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,8 +26,8 @@ public class PostListDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private String kinderName;
-    private String kinderCode;
     private String userName;
+    private String userNickname;
 
     public static PostListDto create(Post post) {
         return new PostListDto(
@@ -36,8 +37,8 @@ public class PostListDto {
                 post.getCreatedDate(),
                 post.getModifiedDate(),
                 post.getKinder().getKinderName(),
-                post.getKinder().getKinderCode(),
-                post.getUser().getName()
+                post.getUser().getName(),
+                post.getUser().getNickname()
         );
     }
 

@@ -16,6 +16,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findKinderPostSelect(Long kinderId);
 
     // 특정 유치원 특정 게시글 조회#
-    @Query(value = "SELECT * FROM post WHERE KINDER_ID = :kinderCode AND :postId ", nativeQuery = true)
-    List<Post> findKinderPostDetailSelect(Long kinderCode, Long postId);
+    // @Query(value = "SELECT * FROM post WHERE KINDER_ID = :kinderCode AND :postId ", nativeQuery = true)
+    // List<Post> findKinderPostDetailSelect(Long kinderCode, Long postId);
 }

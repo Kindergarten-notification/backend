@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +27,12 @@ public class PostDetailDto {
     private String image;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private String userName;
+    private String userNickname;
+    private String userRole;
+    private String userEmail;
+    private String userKinder;
+
 
     public static PostDetailDto create(Post post) {
         return new PostDetailDto(
@@ -34,7 +41,12 @@ public class PostDetailDto {
                 post.getContents(),
                 post.getImage(),
                 post.getCreatedDate(),
-                post.getModifiedDate()
+                post.getModifiedDate(),
+                post.getUser().getName(),
+                post.getUser().getNickname(),
+                post.getUser().getRole().toString(),
+                post.getUser().getEmail(),
+                post.getUser().getKinder().getKinderName()
         );
     }
 }
