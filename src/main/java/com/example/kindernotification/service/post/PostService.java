@@ -72,6 +72,10 @@ public class PostService {
         if (kinder.getId() != user.getKinder().getId())
             throw new IllegalArgumentException("작성자의 소속이 해당유치원이 아닙니다.");
 
+        // 게시글 2000자 글자 등록 취소
+        if(postInsertDto.getContents().toString().length() > 2000)
+            throw new IllegalArgumentException("게시글의 글자가 한도를 초과 하였습니다.");
+
         // 댓글 엔티티 생성
         Post post = Post.create(postInsertDto, kinder, user);
 
@@ -136,7 +140,7 @@ public class PostService {
 
     // 게시글 삭제
     @Transactional
-    public PostDetailDto deletePost(Long postId, Long userId, Long kinderId) {
+    public PostDetailDto deletePost(Long postId, Long userId) {
         // 게시글 조회
         Post target = postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시판이 없습니다."));
 
