@@ -2,6 +2,7 @@ package com.example.kindernotification.service.album;
 
 import com.example.kindernotification.domain.album.Album;
 import com.example.kindernotification.domain.album.AlbumRepository;
+import com.example.kindernotification.web.dto.AlbumDetailDto;
 import com.example.kindernotification.web.dto.AlbumListDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,12 @@ public class AlbumService {
             dtos.add(dto);
         }
         return dtos;
+    }
+
+    public AlbumDetailDto selectDetailAlbum(Long postId) {
+        // 게시글 상세 조회
+        Album target = albumRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시판이 없습니다."));
+
+        return AlbumDetailDto.create(target);
     }
 }
