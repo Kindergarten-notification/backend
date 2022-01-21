@@ -3,6 +3,8 @@ package com.example.kindernotification.domain.album;
 import com.example.kindernotification.domain.BaseTimeEntity;
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
+import com.example.kindernotification.web.dto.AlbumDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Album extends BaseTimeEntity {
     @Id
@@ -41,5 +44,28 @@ public class Album extends BaseTimeEntity {
         this.image = image;
         this.kinder = kinder;
         this.user = user;
+    }
+
+    public static Album create(Kinder kinder, User user, AlbumDto albumDto) {
+        return new Album(
+                albumDto.getId(),
+                albumDto.getTitle(),
+                albumDto.getContents(),
+                albumDto.getImage(),
+                kinder,
+                user
+        );
+    }
+
+    public void update(AlbumDto albumDto) {
+        // 객체 갱신
+        if (albumDto.getTitle() != null)
+            this.title = albumDto.getTitle();
+
+        if (albumDto.getContents() != null)
+            this.contents = albumDto.getContents();
+
+        if (albumDto.getImage() != null)
+            this.image = albumDto.getImage();
     }
 }
