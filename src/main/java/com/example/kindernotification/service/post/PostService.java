@@ -79,15 +79,40 @@ public class PostService {
 
     // 게시글 수정
     @Transactional
-    public PostDetailDto updatePost(PostDetailDto postDetailDto, Long kinderId, Long postId, Long userId) {
+    public PostDetailDto updatePost(PostDetailDto postDetailDto, Long postId, Long userId) {
         // 게시글 상세 조회
         Post target = postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시판이 없습니다."));
 
-        // 유치원 조회
-        //Kinder kinder = kinderRepository.findKinderInfoDetail(kinderId);
-
         // 유저 조회
-        //User user = userRepository.findUserInfoDetail(userId);
+        User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저가 없습니다."));
+
+        // USER, MANAGER, ADMIN,
+        // 조회한 유저의 권한
+        String userRole = user.getRole().toString();
+
+        // 권한 여부
+        // 0 - 권한을 부여하지 않음
+        // 1 - 권한을 부여함
+        int sucess = 0;
+
+        // 권한 설정
+        switch (userRole){
+            case "USER":
+                sucess = 1;
+                break;
+            case "MANAGER":
+                sucess = 1;
+                break;
+            case "ADMIN":
+                sucess = 1;
+                break;
+            default:
+                sucess = 0;
+        }
+
+        // 권한을 부여받지 못하면
+        if(sucess != 1)
+            throw new IllegalArgumentException("수정권한이 없습니다.");
 
         // 게시글 수정
         target.update(postDetailDto);

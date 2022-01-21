@@ -56,11 +56,10 @@ public class PostController {
     // 게시글 수정
     @PatchMapping("/post/{id}")
     public ResponseEntity<PostDetailDto> updatePost (@PathVariable("id") Long postId,
-                                                     @RequestParam("kinder_id") Long kinderId,
                                                      @RequestParam("user_id") Long userId,
                                                      @RequestBody PostDetailDto postDetailDto){
         // 서비스
-        PostDetailDto dtos = postService.updatePost(postDetailDto, kinderId, postId, userId);
+        PostDetailDto dtos = postService.updatePost(postDetailDto, postId, userId);
 
         // 결과 응답
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
