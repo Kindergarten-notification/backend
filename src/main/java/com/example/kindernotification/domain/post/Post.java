@@ -55,6 +55,9 @@ public class Post extends BaseTimeEntity {
 
         if (postDetailDto.getContents() != null)
             this.contents = postDetailDto.getContents();
+
+        if (postDetailDto.getImage() != null)
+            this.image = postDetailDto.getImage();
     }
 }
 
