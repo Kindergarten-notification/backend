@@ -1,8 +1,6 @@
 package com.example.kindernotification.web.controller;
-
-
-import com.example.kindernotification.domain.notification.Notification;
 import com.example.kindernotification.service.notification.NotificationService;
+import com.example.kindernotification.web.dto.NotificationInsertDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,51 +10,82 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @Slf4j
 @RestController
-public class NotificationController {
+@RequestMapping("/api")
+public class NotificationController<NotificationListDto, NotificationDetailDto> {
 @Autowired
     private NotificationService notificationService;
 
 
-    // GET
-    @GetMapping("/api/notification")
-     public List<Notification> index() {
-        return notificationService.index();
+    // 조회
+    @GetMapping("/notification")
+    public ResponseEntity<List<NotificationListDto>> selectAllPost (@RequestParam("kinder_id") long kinderId){
+
+        // kinder_id 받아오는지 로그 확인
+        log.info("kinder_id -> " + kinderId);
+
+        // 서비스
+        List<NotificationListDto> dtos = NotificationService.selectAll(kinderId);
+
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
 
-    @GetMapping("/api/notification/{id}")
-    public Notification show(@PathVariable Long id) {
-        return notificationService.show(id);
-    }
+    // 상세조회
+    @GetMapping("/notification/{id}")
+    public ResponseEntity<NotificationDetailDto> selectDetail (@PathVariable("id") long postId,
+                                                       @RequestParam("kinder_id") long kinderId){
 
-    // POST
+        // id, postId 받아오는지 로그 확인
+        log.info("id -> " + postId);
+        log.info("kinder_id -> " + kinderId);
+
+        // 서비스
+        NotificationDetailDto dtos = notificationService.selectDetail(kinderId, Id);
+
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
+
+    // 등록
     @PostMapping("/api/notification")
-    public ResponseEntity<Notification> create(@RequestBody NotiDto dto) {
-        Notification created = notificationService.create(dto);
-        return (created != null) ?
-                ResponseEntity.status(HttpStatus.OK).body(created):
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        public ResponseEntity<NotificationInsertDto> create (@RequestParam("kinder_id") long kinderId,
+        @RequestParam("user_id") long userId,
+        @RequestBody NotificationInsertDto postInsertDto){
+            // id, postId 받아오는지 로그 확인
+            log.info("id -> " + userId);
+            log.info("kinder_id -> " + kinderId);
 
-    }
+            // 서비스
+            NotificationInsertDto dtos = notificationService.create(notificationInsertDto, kinderId, userId);
 
-
-
-    // PATCH
-    @PatchMapping("/notification/{id}")
-    public ResponseEntity<Notification> update(@PathVariable Long id,
-                                               @RequestBody NotiDto dto) {
-        Notification updateed = notificationService.update(id, dto);
-        return (updateed != null) ?
-                ResponseEntity.status(HttpStatus.OK).body(updated) :
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
-        //DELETE
-        @DeleteMapping("/notification/{id}")
-            public ResponseEntity<Notification> delete(@PathVariable Long id) {
-            Notification deleted = notificationService.delete(id);
-            return (deleted != null) ?
-                    ResponseEntity.status(HttpStatus.NO_CONTENT).build() :
-                    ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-
+            // 결과 응답
+            return ResponseEntity.status(HttpStatus.OK).body(dtos);
         }
+
+
+
+    // 수정
+    @PatchMapping("/notification/{id}")
+        public ResponseEntity<NotificationDetailDto> updateNotification (@PathVariable("id") Long Id,
+                @RequestParam("kinder_id") Long kinderId,
+                @RequestParam("user_id") Long userId,
+                @RequestBody PostDetailDto NotificationDetailDto){
+            // 서비스
+            NotificationDetailDto dtos = notificationService.update(NotificationDetailDto, kinderId, Id, userId);
+
+            // 결과 응답
+            return ResponseEntity.status(HttpStatus.OK).body(dtos);
+        }
+        // 삭제
+        @DeleteMapping("/notification/{id}")
+        public ResponseEntity<NotificationDetailDto> deletePost (@PathVariable("id") Long postId,
+                @RequestParam("kinder_id") Long kinderId,
+                @RequestParam("user_id") Long userId){
+            // 서비스
+            NotificationDetailDto dtos = notificationService.delete(Id, userId, kinderId);
+
+            // 결과 응답
+            return ResponseEntity.status(HttpStatus.OK).body(dtos);
+        }
+
     }
 
