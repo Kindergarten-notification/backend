@@ -1,3 +1,5 @@
+package com.example.kindernotification.web.dto;
+
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.notification.Notification;
 import com.example.kindernotification.domain.user.User;
