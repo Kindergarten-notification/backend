@@ -1,6 +1,8 @@
 package com.example.kindernotification.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,6 +15,8 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass  // 해당 class field 를 상속받은 class field 에 넣어주겠다는 의미
 @EntityListeners(AuditingEntityListener.class)
+@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
+
 public abstract class BaseTimeEntity {
     @CreatedDate
     private LocalDateTime createdDate;
