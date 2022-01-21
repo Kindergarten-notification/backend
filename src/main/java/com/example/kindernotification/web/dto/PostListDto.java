@@ -1,18 +1,13 @@
 package com.example.kindernotification.web.dto;
 
-import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.post.Post;
-import com.example.kindernotification.domain.user.User;
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 import java.time.LocalDateTime;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,9 +20,11 @@ public class PostListDto {
     private String contents;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
-    private String kinderName;
     private String userName;
     private String userNickname;
+    private String userRole;
+    private String userEmail;
+    private String userKinder;
 
     public static PostListDto create(Post post) {
         return new PostListDto(
@@ -36,9 +33,11 @@ public class PostListDto {
                 post.getContents(),
                 post.getCreatedDate(),
                 post.getModifiedDate(),
-                post.getKinder().getKinderName(),
                 post.getUser().getName(),
-                post.getUser().getNickname()
+                post.getUser().getNickname(),
+                post.getUser().getRole().toString(),
+                post.getUser().getEmail(),
+                post.getUser().getKinder().getKinderName()
         );
     }
 
