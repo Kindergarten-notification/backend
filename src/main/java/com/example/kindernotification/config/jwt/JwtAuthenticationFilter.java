@@ -84,6 +84,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim("name", principalDetails.getUser().getName())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));  // server 가 아는 고유한 값 (secret key)
 
+        System.out.println("token: " + jwtToken);
+
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
+
+        System.out.println("response getHeader : " +response.getHeaderNames());
+        System.out.println("Authorization:  " +response.getHeader("Authorization"));
     }
 }

@@ -1,7 +1,9 @@
 package com.example.kindernotification.domain.kinder;
 
 import com.example.kindernotification.domain.sidoSgg.SidoSgg;
+
 import lombok.Builder;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
+
 public class Kinder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

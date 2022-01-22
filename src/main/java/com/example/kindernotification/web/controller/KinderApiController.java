@@ -1,14 +1,14 @@
 package com.example.kindernotification.web.controller;
 
 import com.example.kindernotification.service.kinder.KinderService;
-import com.example.kindernotification.web.dto.KinderDetailDto;
+import com.example.kindernotification.web.dto.kinder.KinderDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public class KinderController {
+public class KinderApiController {
 
     private final KinderService kinderService;
 

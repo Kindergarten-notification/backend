@@ -1,7 +1,6 @@
 package com.example.kindernotification.config.auth;
 
 import com.example.kindernotification.domain.user.User;
-import com.example.kindernotification.domain.user.UserRepository;
 import com.example.kindernotification.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +17,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        User userEntity = userService.findByName(name);
+        User userEntity = userService.getUserByName(name);
         return new PrincipalDetails(userEntity);
     }
 }
