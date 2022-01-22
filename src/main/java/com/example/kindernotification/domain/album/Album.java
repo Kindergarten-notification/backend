@@ -4,6 +4,7 @@ import com.example.kindernotification.domain.BaseTimeEntity;
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
 import com.example.kindernotification.web.dto.AlbumDto;
+import com.example.kindernotification.web.dto.AlbumUpdateReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -57,7 +58,7 @@ public class Album extends BaseTimeEntity {
         );
     }
 
-    public void update(AlbumDto albumDto) {
+    public void update(AlbumUpdateReqDto albumDto) {
         // 객체 갱신
         if (albumDto.getTitle() != null)
             this.title = albumDto.getTitle();

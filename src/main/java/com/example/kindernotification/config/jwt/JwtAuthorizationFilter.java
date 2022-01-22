@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.kindernotification.config.auth.PrincipalDetails;
 import com.example.kindernotification.domain.user.User;
-import com.example.kindernotification.domain.user.UserRepository;
 import com.example.kindernotification.service.user.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,7 +37,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 //        super.doFilterInternal(request, response, chain);
         System.out.println("JwtAuthorizationFilter: 인증, 권한 필요한 url 요청");
-
         // header 확인
         String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
         if (jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
@@ -52,7 +50,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String name = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("name").asString();
         // 인증 OK
         if (name != null) {
-            User userEntity = userService.findByName(name);
+            System.out.println("user 인증 완료");
+            User userEntity = userService.getUserByName(name);
             PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
 
             // Jwt Token 서명을 통해 서명이 정상이면 Authentication 객체 생성

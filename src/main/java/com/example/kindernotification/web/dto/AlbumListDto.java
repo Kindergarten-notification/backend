@@ -4,10 +4,8 @@ import com.example.kindernotification.domain.album.Album;
 import com.example.kindernotification.domain.post.Post;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -27,20 +25,17 @@ public class AlbumListDto {
     private String userEmail;
     private String userKinder;
 
-    public static AlbumListDto create(Album album) {
-        return new AlbumListDto(
-                album.getId(),
-                album.getTitle(),
-                album.getContents(),
-                album.getCreatedDate(),
-                album.getModifiedDate(),
-                album.getUser().getName(),
-                album.getUser().getNickname(),
-                album.getUser().getRole().toString(),
-                album.getUser().getEmail(),
-                album.getUser().getKinder().getKinderName()
-        );
+    @Builder
+    public AlbumListDto(Album album) {
+        this.id = album.getId();
+        this.title = album.getTitle();
+        this.contents = album.getContents();
+        this.createdDate = album.getCreatedDate();
+        this.modifiedDate = album.getModifiedDate();
+        this.userName = album.getUser().getName();
+        this.userNickname = album.getUser().getNickname();
+        this.userRole = String.valueOf(album.getUser().getRole());
+        this.userEmail = album.getUser().getEmail();
+        this.userKinder = album.getKinder().getKinderName();
     }
-
-
 }

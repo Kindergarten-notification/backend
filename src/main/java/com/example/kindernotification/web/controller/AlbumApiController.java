@@ -4,24 +4,25 @@ import com.example.kindernotification.service.album.AlbumService;
 import com.example.kindernotification.web.dto.AlbumDetailDto;
 import com.example.kindernotification.web.dto.AlbumDto;
 import com.example.kindernotification.web.dto.AlbumListDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.kindernotification.web.dto.AlbumUpdateReqDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public class AlbumController {
-    @Autowired
-    private AlbumService albumService;
+public class AlbumApiController {
+    private final AlbumService albumService;
 
     // 앨범 목록 전체 조회
     @GetMapping("/albums")
-    public ResponseEntity<List<AlbumListDto>> selectAllAlbum (@RequestParam("kinder_id") Long kinderId){
+    public ResponseEntity<List<AlbumListDto>> getAllAlbum(@RequestParam("kinderId") Long kinderId){
         // 서비스
-        List<AlbumListDto> dtos = albumService.selectAllAlbum(kinderId);
+        List<AlbumListDto> dtos = albumService.getAllAlbum(kinderId);
 
         // 결과 응답
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
@@ -29,9 +30,9 @@ public class AlbumController {
 
     // 앨범 상세 조회
     @GetMapping("/album/{id}")
-    public ResponseEntity<AlbumDetailDto> selectDetailAlbum (@PathVariable("id") Long postId){
+    public ResponseEntity<AlbumDetailDto> getDetailAlbum(@PathVariable("id") Long albumId){
         // 서비스
-        AlbumDetailDto dto = albumService.selectDetailAlbum(postId);
+        AlbumDetailDto dto = albumService.getDetailAlbum(albumId);
         // 결과 응답
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
@@ -52,7 +53,7 @@ public class AlbumController {
     @PatchMapping("/album/{id}")
     public ResponseEntity<AlbumDetailDto> updateAlbum (@PathVariable("id") Long postId,
                                                        @RequestParam("user_id") Long userId,
-                                                       @RequestBody AlbumDto albumDto){
+                                                       @RequestBody AlbumUpdateReqDto albumDto){
         // 서비스
         AlbumDetailDto dto = albumService.updateAlbum(postId, userId, albumDto);
 
@@ -65,10 +66,10 @@ public class AlbumController {
     public ResponseEntity<AlbumDetailDto> deleteAlbum (@PathVariable("id") Long postId,
                                                        @RequestParam("user_id") Long userId){
         // 서비스
-        AlbumDetailDto dtos = albumService.deleteAlbum(postId, userId);
+        AlbumDetailDto dto = albumService.deleteAlbum(postId, userId);
 
         // 결과 응답
-        return ResponseEntity.status(HttpStatus.OK).body(dtos);
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
 }

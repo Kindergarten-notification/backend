@@ -1,4 +1,4 @@
-package com.example.kindernotification.web.service;
+package com.example.kindernotification.service;
 
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.kinder.KinderRepository;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class MainpageService {
+public class MainService {
     private final KinderRepository kinderRepository;
 
     public List<MainpageResponseDto> findAll(int pageNum) {

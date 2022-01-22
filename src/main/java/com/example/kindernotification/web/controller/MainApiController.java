@@ -1,9 +1,8 @@
 package com.example.kindernotification.web.controller;
 
 import com.example.kindernotification.web.dto.MainpageResponseDto;
-import com.example.kindernotification.web.service.MainpageService;
+import com.example.kindernotification.service.MainService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Parameter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,13 +10,13 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-public class MainpageController {
+public class MainApiController {
 
-    private final MainpageService mainpageService;
+    private final MainService mainService;
 
     @GetMapping("/api/kinders")
     public List<MainpageResponseDto> findAll(@RequestParam(name = "page") int pageNum){
-        return mainpageService.findAll(pageNum);
+        return mainService.findAll(pageNum);
     }
 }
 
