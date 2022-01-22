@@ -1,7 +1,6 @@
-package com.example.kindernotification.web.dto;
+package com.example.kindernotification.web.dto.album;
 
 import com.example.kindernotification.domain.album.Album;
-import com.example.kindernotification.domain.post.Post;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class AlbumListDto {
+public class AlbumListResDto {
     private Long id;
     private String title;
     private String contents;
@@ -26,7 +25,7 @@ public class AlbumListDto {
     private String userKinder;
 
     @Builder
-    public AlbumListDto(Album album) {
+    public AlbumListResDto(Album album) {
         this.id = album.getId();
         this.title = album.getTitle();
         this.contents = album.getContents();

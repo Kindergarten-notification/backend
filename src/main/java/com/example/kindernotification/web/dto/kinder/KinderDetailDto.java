@@ -1,4 +1,4 @@
-package com.example.kindernotification.web.dto;
+package com.example.kindernotification.web.dto.kinder;
 
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -51,22 +51,4 @@ public class KinderDetailDto {
         this.vhclOprnYn = entity.getVhclOprnYn();
         this.opraVhcnt = String.valueOf(entity.getOpraVhcnt());
     }
-
-//    @Override
-//    public String toString() {
-//        return "KinderDetailDto{" +
-//                "id=" + id +
-//                ", kinderCode='" + kinderCode + '\'' +
-//                ", kinderName='" + kinderName + '\'' +
-//                ", sidoSgg='" + sidoSgg + '\'' +
-//                ", establish='" + establish + '\'' +
-//                ", telNo='" + telNo + '\'' +
-//                ", operTime='" + operTime + '\'' +
-//                ", ldgrName='" + ldgrName + '\'' +
-//                ", addr='" + addr + '\'' +
-//                ", hpAddr='" + hpAddr + '\'' +
-//                ", vhclOprnYn='" + vhclOprnYn + '\'' +
-//                ", opraVhcnt='" + opraVhcnt + '\'' +
-//                '}';
-//    }
 }

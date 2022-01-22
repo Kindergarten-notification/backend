@@ -3,7 +3,7 @@ package com.example.kindernotification.domain.post;
 import com.example.kindernotification.domain.BaseTimeEntity;
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
-import com.example.kindernotification.web.dto.PostDto;
+import com.example.kindernotification.web.dto.post.PostDto;
 import lombok.*;
 
 import javax.persistence.*;

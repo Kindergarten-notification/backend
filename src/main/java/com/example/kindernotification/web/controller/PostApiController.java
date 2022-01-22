@@ -1,9 +1,9 @@
 package com.example.kindernotification.web.controller;
 
 import com.example.kindernotification.service.post.PostService;
-import com.example.kindernotification.web.dto.PostDetailDto;
-import com.example.kindernotification.web.dto.PostDto;
-import com.example.kindernotification.web.dto.PostListDto;
+import com.example.kindernotification.web.dto.post.PostDetailDto;
+import com.example.kindernotification.web.dto.post.PostDto;
+import com.example.kindernotification.web.dto.post.PostListDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @Slf4j
-public class PostController {
+public class PostApiController {
 
     @Autowired
     private PostService postService;

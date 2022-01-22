@@ -1,8 +1,5 @@
 package com.example.kindernotification.domain.post;
 
-import com.example.kindernotification.domain.kinder.Kinder;
-import com.example.kindernotification.domain.user.User;
-import com.example.kindernotification.web.dto.PostDetailDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

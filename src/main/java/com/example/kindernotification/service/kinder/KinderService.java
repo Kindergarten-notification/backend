@@ -2,7 +2,7 @@ package com.example.kindernotification.service.kinder;
 
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.kinder.KinderRepository;
-import com.example.kindernotification.web.dto.KinderDetailDto;
+import com.example.kindernotification.web.dto.kinder.KinderDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

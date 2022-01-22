@@ -1,6 +1,6 @@
-package com.example.kindernotification.web.dto;
+package com.example.kindernotification.web.dto.post;
 
-import com.example.kindernotification.domain.album.Album;
+import com.example.kindernotification.domain.post.Post;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @ToString
 @JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
 
-public class AlbumDetailDto {
+public class PostDetailDto {
     private Long id;
     private String title;
     private String contents;
@@ -29,19 +29,19 @@ public class AlbumDetailDto {
     private String userKinder;
 
 
-    public static AlbumDetailDto create(Album album) {
-        return new AlbumDetailDto(
-                album.getId(),
-                album.getTitle(),
-                album.getContents(),
-                album.getImage(),
-                album.getCreatedDate(),
-                album.getModifiedDate(),
-                album.getUser().getName(),
-                album.getUser().getNickname(),
-                album.getUser().getRole().toString(),
-                album.getUser().getEmail(),
-                album.getUser().getKinder().getKinderName()
+    public static PostDetailDto create(Post post) {
+        return new PostDetailDto(
+                post.getId(),
+                post.getTitle(),
+                post.getContents(),
+                post.getImage(),
+                post.getCreatedDate(),
+                post.getModifiedDate(),
+                post.getUser().getName(),
+                post.getUser().getNickname(),
+                post.getUser().getRole().toString(),
+                post.getUser().getEmail(),
+                post.getUser().getKinder().getKinderName()
         );
     }
 }

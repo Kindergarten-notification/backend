@@ -3,8 +3,9 @@ package com.example.kindernotification.domain.album;
 import com.example.kindernotification.domain.BaseTimeEntity;
 import com.example.kindernotification.domain.kinder.Kinder;
 import com.example.kindernotification.domain.user.User;
-import com.example.kindernotification.web.dto.AlbumDto;
-import com.example.kindernotification.web.dto.AlbumUpdateReqDto;
+import com.example.kindernotification.web.dto.album.AlbumPostReqDto;
+import com.example.kindernotification.web.dto.album.AlbumPatchReqDto;
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,26 +40,15 @@ public class Album extends BaseTimeEntity {
     private User user;
 
     @Builder
-    public Album(String title, String contents, String image, Kinder kinder, User user) {
-        this.title = title;
-        this.contents = contents;
-        this.image = image;
-        this.kinder = kinder;
+    public Album(User user, AlbumPostReqDto albumPostReqDto) {
+        this.title = albumPostReqDto.getTitle();
+        this.contents = albumPostReqDto.getContents();
+        this.image = albumPostReqDto.getImage();
+        this.kinder = user.getKinder();
         this.user = user;
     }
 
-    public static Album create(Kinder kinder, User user, AlbumDto albumDto) {
-        return new Album(
-                albumDto.getId(),
-                albumDto.getTitle(),
-                albumDto.getContents(),
-                albumDto.getImage(),
-                kinder,
-                user
-        );
-    }
-
-    public void update(AlbumUpdateReqDto albumDto) {
+    public void update(AlbumPatchReqDto albumDto) {
         // 객체 갱신
         if (albumDto.getTitle() != null)
             this.title = albumDto.getTitle();

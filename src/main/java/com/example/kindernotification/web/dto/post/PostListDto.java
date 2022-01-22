@@ -1,4 +1,4 @@
-package com.example.kindernotification.web.dto;
+package com.example.kindernotification.web.dto.post;
 
 import com.example.kindernotification.domain.post.Post;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
