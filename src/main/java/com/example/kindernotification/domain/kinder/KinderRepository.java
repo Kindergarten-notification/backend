@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface KinderRepository extends JpaRepository<Kinder, Long> {
-
     @Override
     Optional<Kinder> findById(Long id);
 
@@ -19,6 +18,5 @@ public interface KinderRepository extends JpaRepository<Kinder, Long> {
     Page<Kinder> findAllByOrderByKinderName(Pageable pageable);
   
     List<Kinder> findAllByOrderByIdDesc();
-
 }
 
