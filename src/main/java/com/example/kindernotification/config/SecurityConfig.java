@@ -1,67 +1,57 @@
 package com.example.kindernotification.config;
 
-import com.example.kindernotification.config.jwt.CustomAuthenticationEntryPoint;
-import com.example.kindernotification.config.jwt.JwtAuthenticationFilter;
-import com.example.kindernotification.config.jwt.JwtAuthorizationFilter;
-import com.example.kindernotification.service.user.UserService;
+import com.example.kindernotification.config.jwt.JwtAccessDeniedHandler;
+import com.example.kindernotification.config.jwt.JwtAuthenticationEntryPoint;
+import com.example.kindernotification.config.jwt.JwtSecurityConfig;
+import com.example.kindernotification.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.context.SecurityContextPersistenceFilter;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)  // @Secured annotation 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//    private final CorsFilter corsFilter;
-    private final UserService userService;
 
-    /** 최재은 1/18 (화)
-     * Security 설정 method
-     * JwtAuthenticationFilter, JwtAuthorizationFilter:
-     *   - AuthenticationManager 를 parameter 로 전달 (WebSecurityConfigurerAdapter 가 들고 있음)
-     *
-     * */
-    /*
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // SecurityContextPersistenceFilter: Security chain 에서 가장 먼저 실행되는 Filter
-         http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), SecurityContextPersistenceFilter.class);
-        http.addFilterBefore(new JwtAuthorizationFilter(authenticationManager(), userService), SecurityContextPersistenceFilter.class);
-        http.csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // session 사용 안함
-            .and()
-//            .addFilter(corsFilter)
-            .formLogin().disable()
-            .httpBasic().disable()
-//            .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-//                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService))
-            .authorizeRequests()
-                    .antMatchers("/api/user/**")
-                        .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                    .antMatchers("/api/manager/**")
-                        .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                    .antMatchers("/api/admin/**")
-                        .access("hasRole('ROLE_ADMIN')")
-                                .anyRequest().permitAll()
-            .and().exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+    private final TokenProvider tokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+    // 해쉬로 암호화
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
-     */
 
+
+    // Spring Security관련 로직을 수행하지 않도록 담당당
+//    @Override
+//    public void configure(WebSecurity web) {
+//        web
+//                .ignoring()
+//                .antMatchers(
+//                        "/h2-console/**"
+//                        , "/favicon.ico"
+//                );
+//    }
+
+    // spring securiy 설정
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 //csrf 토큰 비활성화, 시큐리티에서 js로 요청이오면 csft토큰이 없어서 막아버리는데, disable로 해결
                 .csrf().disable()
                 .exceptionHandling()
-//                .authenticationEntryPoint(new CustomAuthenticationEntryPoint()) // 401
-//                .accessDeniedHandler(jwtAuthenticationEntryPoint) // 403 user -> adminPage access denied
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint) // 401
+                .accessDeniedHandler(jwtAccessDeniedHandler) // 403 user -> adminPage access denied
 
                 .and()
                 .headers()
@@ -83,6 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login");
+                .loginPage("/login")
+                .and()
+                .apply(new JwtSecurityConfig(tokenProvider));
     }
+
 }
+
