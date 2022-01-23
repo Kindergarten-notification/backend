@@ -52,10 +52,9 @@ public class AlbumApiController {
      * */
     @Secured({"ROLE_MANAGER", "ROLE_ADMIN"})
     @PostMapping("/album")
-    public ResponseEntity createAlbum (@RequestParam("kinder_id") Long kinderId,
+    public ResponseEntity<String> createAlbum (@RequestParam("kinder_id") Long kinderId,
                                                           @RequestParam("user_id") Long userId,
                                                           @RequestBody AlbumPostReqDto albumPostReqDto){
-        System.out.println("앨범 생성");
         if (albumService.createAlbum(kinderId, userId, albumPostReqDto)) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Completed to create an album.\n");
         }
@@ -73,7 +72,7 @@ public class AlbumApiController {
      * */
     @Secured({"ROLE_MANAGER", "ROLE_ADMIN"})
     @PatchMapping("/album/{id}")
-    public ResponseEntity updateAlbum (@PathVariable("id") Long albumId,
+    public ResponseEntity<String> updateAlbum (@PathVariable("id") Long albumId,
                                                           @RequestParam("user_id") Long userId,
                                                           @RequestBody AlbumPatchReqDto albumDto){
         if (albumService.updateAlbum(albumId, userId, albumDto)) {
@@ -93,7 +92,7 @@ public class AlbumApiController {
      * */
     @Secured({"ROLE_MANAGER", "ROLE_ADMIN"})
     @DeleteMapping("/album/{id}")
-    public ResponseEntity deleteAlbum (@PathVariable("id") Long albumId,
+    public ResponseEntity<String> deleteAlbum (@PathVariable("id") Long albumId,
                                                           @RequestParam("user_id") Long userId){
 
         if (albumService.deleteAlbum(albumId, userId)) {

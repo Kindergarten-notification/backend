@@ -3,10 +3,8 @@ package com.example.kindernotification.web.dto.post;
 import com.example.kindernotification.domain.post.Post;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -14,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class PostListDto {
+public class PostListResDto {
     private Long id;
     private String title;
     private String contents;
@@ -26,20 +24,17 @@ public class PostListDto {
     private String userEmail;
     private String userKinder;
 
-    public static PostListDto create(Post post) {
-        return new PostListDto(
-                post.getId(),
-                post.getTitle(),
-                post.getContents(),
-                post.getCreatedDate(),
-                post.getModifiedDate(),
-                post.getUser().getName(),
-                post.getUser().getNickname(),
-                post.getUser().getRole().toString(),
-                post.getUser().getEmail(),
-                post.getUser().getKinder().getKinderName()
-        );
+    @Builder
+    public PostListResDto(Post post) {
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.contents = post.getContents();
+        this.createdDate = post.getCreatedDate();
+        this.modifiedDate = post.getModifiedDate();
+        this.userName = post.getUser().getName();
+        this.userNickname = post.getUser().getNickname();
+        this.userRole = String.valueOf(post.getUser().getRole());
+        this.userEmail = post.getUser().getEmail();
+        this.userKinder = post.getKinder().getKinderName();
     }
-
-
 }

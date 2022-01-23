@@ -52,12 +52,8 @@ public class AlbumService {
 
         /** 해당 유저(MANAGER)가 본인 유치원인지만 확인해주면 된다.
          * */
-        if (!kinderId.equals(user.getKinder().getId()))
-            throw new IllegalArgumentException("작성자의 소속이 해당유치원이 아닙니다.");
-
-        // 게시글 2000자 글자 등록 취소
-        if(albumPostReqDto.getContents().length() > 2000)
-            throw new IllegalArgumentException("게시글의 글자가 한도를 초과 하였습니다.");
+        if (!kinderId.equals(user.getKinder().getId()) || albumPostReqDto.getContents().length() > 2000)
+            return false;
 
         // 앨범 생성
         Album album = Album.builder()
@@ -82,7 +78,7 @@ public class AlbumService {
         /** 이미 앨범 생성할 때 소속 유치원인지 체크했기 때문에 본인이 생성한 앨범인지만 확인하면 된다.
          * */
         if (!album.getUser().equals(user))
-            throw new IllegalArgumentException("작성자의 게시물이 아닙니다.");
+            return false;
 
         // 앨범 수정
         album.update(albumDto);
@@ -103,7 +99,7 @@ public class AlbumService {
         /** 이미 앨범 생성할 때 소속 유치원인지 체크했기 때문에 본인이 생성한 앨범인지만 확인하면 된다.
          * */
         if(!album.getUser().equals(user))
-            throw new IllegalArgumentException("자신이 작성한 앨범만 삭제 가능합니다.");
+            return false;
 
         // 앨범 삭제
         albumRepository.delete(album);
