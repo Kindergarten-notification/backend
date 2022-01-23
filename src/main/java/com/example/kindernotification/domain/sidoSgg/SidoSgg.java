@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class) // 무한루프 방지 코드
+
 public class SidoSgg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
