@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -37,7 +38,7 @@ public class AlbumService {
 
     // 앨범 상세 조회
     public AlbumDetailResDto getDetailAlbum(Long postId) {
-        Album album = albumRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("앨범이 없습니다."));
+        Album album = albumRepository.findById(postId).orElseThrow(()->new NoSuchElementException("앨범이 없습니다."));
 
         return AlbumDetailResDto.builder().album(album).build();
     }
@@ -47,7 +48,7 @@ public class AlbumService {
     @Transactional
     public boolean createAlbum(Long kinderId, Long userId, AlbumPostReqDto albumPostReqDto) {
         // 유저 조회
-        User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("유저가 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(()->new NoSuchElementException("유저가 없습니다."));
 
         /** 해당 유저(MANAGER)가 본인 유치원인지만 확인해주면 된다.
          * */
@@ -73,14 +74,14 @@ public class AlbumService {
     @Transactional
     public boolean updateAlbum(Long albumId, Long userId, AlbumPatchReqDto albumDto) {
         // 앨범 상세 조회
-        Album album = albumRepository.findById(albumId).orElseThrow(()->new IllegalArgumentException("앨범이 없습니다."));
+        Album album = albumRepository.findById(albumId).orElseThrow(() -> new NoSuchElementException("앨범이 없습니다."));
 
         // 유저 조회
-        User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저가 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(()-> new NoSuchElementException("유저가 없습니다."));
 
         /** 이미 앨범 생성할 때 소속 유치원인지 체크했기 때문에 본인이 생성한 앨범인지만 확인하면 된다.
          * */
-        if (album.getUser().equals(user))
+        if (!album.getUser().equals(user))
             throw new IllegalArgumentException("작성자의 게시물이 아닙니다.");
 
         // 앨범 수정
@@ -94,14 +95,14 @@ public class AlbumService {
     @Transactional
     public boolean deleteAlbum(Long albumId, Long userId) {
         // 게시글 조회
-        Album album = albumRepository.findById(albumId).orElseThrow(()->new IllegalArgumentException("앨범이 없습니다."));
+        Album album = albumRepository.findById(albumId).orElseThrow(()->new NoSuchElementException("앨범이 없습니다."));
 
         // 유저 조회
-        User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저가 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(()-> new NoSuchElementException("유저가 없습니다."));
 
         /** 이미 앨범 생성할 때 소속 유치원인지 체크했기 때문에 본인이 생성한 앨범인지만 확인하면 된다.
          * */
-        if(album.getUser().equals(user))
+        if(!album.getUser().equals(user))
             throw new IllegalArgumentException("자신이 작성한 앨범만 삭제 가능합니다.");
 
         // 앨범 삭제

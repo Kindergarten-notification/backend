@@ -50,7 +50,7 @@ public class AlbumApiController {
      * - 등록 완료: status 201
      * - 등록 실패: status 400
      * */
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_MANAGER", "ROLE_ADMIN"})
     @PostMapping("/album")
     public ResponseEntity createAlbum (@RequestParam("kinder_id") Long kinderId,
                                                           @RequestParam("user_id") Long userId,
